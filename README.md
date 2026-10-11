@@ -1,209 +1,289 @@
-# Deep Learning-Based Crop Disease and Insect-Pest Classification Using Convolutional Neural Networks
+# 🌱 Deep Learning-Based Crop Disease and Insect-Pest Classification Using Convolutional Neural Networks
 
-A Python + TensorFlow/Keras + Streamlit academic project that classifies crop/leaf images into the categories represented in the training dataset. It uses a CNN architecture based on MobileNetV2 transfer learning, image augmentation, validation split, early stopping, and a Streamlit upload interface.
+A deep learning academic project that uses **MobileNetV2 and Convolutional Neural Networks (CNNs)** to classify plant leaf images into crop disease categories. The project includes a trained TensorFlow/Keras model and a Streamlit web application for image-based prediction.
 
-> **Important scope note:** PlantVillage contains crop health/disease classes, but not insect-pest classes. To honestly cover both parts of the project title, add pest-category images (for example, from IP102) to the same class-folder dataset before training. The model can only predict classes it was trained on.
+> **Project scope:** The current model is trained on the PlantVillage dataset, containing 38 plant health and disease categories. Insect-pest classification is not yet implemented. The project title describes the broader objective, while the current implementation focuses on crop disease classification.
 
-## Features
+---
 
-- Image upload interface built with Streamlit
-- CNN-based image classification using MobileNetV2
-- Data augmentation: random flip, rotation, and zoom
-- 80/20 training-validation split
-- Model checkpointing and early stopping
-- Top-5 predictions and confidence scores
-- Class names saved alongside the trained model
-- Training history exported to CSV
+## 📌 Project Overview
 
-## Tech stack
+Plant diseases can significantly affect agricultural productivity. Early identification can help farmers make informed decisions about crop management.
 
-- Python
-- TensorFlow / Keras
-- CNN (MobileNetV2 transfer learning)
-- Streamlit
-- NumPy and Pillow
-- Visual Studio Code
-- Git and GitHub
+This project uses transfer learning with MobileNetV2 to classify plant leaf images. Users can upload an image through a simple web interface and view the predicted category and confidence score.
 
-## Project structure
+### Objectives
+
+* Develop a deep learning model for crop disease classification.
+* Apply transfer learning using MobileNetV2.
+* Train and evaluate the model using the PlantVillage dataset.
+* Build an interactive web application using Streamlit.
+* Explore the potential of deep learning in agricultural applications.
+
+---
+
+## ✨ Features
+
+* Upload plant leaf images through a web interface.
+* Classify images into 38 trained categories.
+* Use MobileNetV2 transfer learning.
+* Apply image augmentation during training.
+* Display prediction confidence scores.
+* Show the top five predicted categories.
+* Save the trained model in Keras format.
+* Export training history to a CSV file.
+* Provide a simple and user-friendly interface.
+
+---
+
+## 🛠️ Technologies Used
+
+| Technology  | Purpose                        |
+| ----------- | ------------------------------ |
+| Python      | Main programming language      |
+| TensorFlow  | Deep learning framework        |
+| Keras       | Model development and training |
+| MobileNetV2 | Pretrained CNN architecture    |
+| NumPy       | Numerical operations           |
+| Pillow      | Image processing               |
+| Streamlit   | Web application                |
+| Git         | Version control                |
+| GitHub      | Source code hosting            |
+| VS Code     | Development environment        |
+
+---
+
+## 🧠 Model Architecture
+
+The project uses MobileNetV2 with ImageNet pretrained weights as the feature extraction backbone.
+
+The main processing pipeline is:
+
+1. **Image Input:** Accept a plant leaf image.
+2. **Preprocessing:** Resize the image to 224 × 224 pixels.
+3. **Data Augmentation:** Apply transformations to training images.
+4. **Feature Extraction:** Use MobileNetV2 to extract image features.
+5. **Global Average Pooling:** Reduce the extracted feature maps.
+6. **Dropout:** Help reduce overfitting during training.
+7. **Classification:** Use a dense output layer with softmax activation.
+8. **Prediction:** Return scores for the 38 trained categories.
+
+The trained model is saved as `crop_classifier.keras`, and the class names are stored in `class_names.json`.
+
+---
+
+## 📂 Project Structure
 
 ```text
 crop_disease_pest_cnn/
+│
 ├── app.py
-├── requirements.txt
 ├── README.md
+├── requirements.txt
 ├── .gitignore
-├── dataset/
-│   └── images/
-│       └── <one-folder-per-class>/
+├── training_history.csv
+│
 ├── models/
-│   └── (trained model files created after training)
-└── training/
-    └── train_model.py
+│   ├── crop_classifier.keras
+│   └── class_names.json
+│
+├── training/
+│   └── train_model.py
+│
+├── report/
+│   └── REPORT_TEMPLATE.md
+│
+├── test_dataset.py
+└── test_prediction.py
 ```
 
-## 1. Requirements
+**Note:** The virtual environment and dataset are excluded from GitHub to keep the repository manageable.
 
-Install Python 3.11 (recommended for a smooth TensorFlow setup), Git, and VS Code. In VS Code, open this project folder and select the Python interpreter from the virtual environment.
+---
 
-Check your Python version in the VS Code terminal:
+## 📊 Dataset
 
-```powershell
-python --version
+### PlantVillage Dataset
+
+The project uses the PlantVillage dataset for crop disease classification.
+
+* Approximately 54,000 images are available in the downloaded dataset.
+* The dataset contains 38 plant health and disease categories.
+* Images are organized into class-specific folders.
+* The current model predicts only categories represented in its training data.
+
+**Dataset resources:**
+
+* PlantVillage GitHub repository: https://github.com/spMohanty/PlantVillage-Dataset
+* TensorFlow Datasets documentation: https://www.tensorflow.org/datasets/catalog/plant_village
+
+### Future Enhancement: Insect-Pest Classification
+
+Insect-pest classification can be added in a future version using a suitable labeled pest dataset, such as IP102.
+
+* IP102 repository: https://github.com/xpwu95/IP102
+* IP102 research paper: https://openaccess.thecvf.com/content_CVPR_2019/html/Wu_IP102_A_Large-Scale_Benchmark_Dataset_for_Insect_Pest_Recognition_CVPR_2019_paper.html
+
+Dataset access and licensing conditions should be reviewed before use.
+
+---
+
+## 💻 System Requirements
+
+* Windows, Linux, or macOS
+* Python 3.11 recommended for this project environment
+* Git
+* Visual Studio Code or another Python IDE
+* Internet connection for installing dependencies and downloading pretrained weights when needed
+* Sufficient RAM and storage for model training
+
+A GPU is optional. Training can run on a CPU, although it may take longer.
+
+---
+
+## 🚀 Installation and Setup
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/VIGNESH-04338/crop-disease-pest-cnn.git
 ```
 
-## 2. Create a virtual environment (Windows PowerShell)
+Navigate into the project directory:
 
-Run these commands from the project root:
+```bash
+cd crop-disease-pest-cnn
+```
+
+### 2. Create a Virtual Environment
+
+On Windows PowerShell:
 
 ```powershell
 python -m venv .venv
+```
+
+Activate the environment:
+
+```powershell
 .\.venv\Scripts\Activate.ps1
+```
+
+### 3. Install Dependencies
+
+```powershell
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-If PowerShell blocks activation, you can use Command Prompt instead:
+### 4. Run the Web Application
 
-```bat
-.venv\Scripts\activate.bat
-```
-
-## 3. Prepare the dataset
-
-The training code expects one directory per class, with images inside each class directory. Example:
-
-```text
-dataset/
-└── images/
-    ├── Apple___Apple_scab/
-    │   ├── image001.jpg
-    │   └── image002.jpg
-    ├── Tomato___healthy/
-    │   ├── image001.jpg
-    │   └── image002.jpg
-    ├── Tomato___Early_blight/
-    │   └── image001.jpg
-    ├── Pest___Aphids/
-    │   └── image001.jpg
-    └── Pest___Armyworm/
-        └── image001.jpg
-```
-
-Use real class names that match your dataset. Do not create fake or empty classes.
-
-### Crop disease dataset: PlantVillage
-
-PlantVillage contains roughly 54,000 labeled images across 38 crop health/disease classes. Options:
-- Dataset project/repository: https://github.com/spMohanty/PlantVillage-Dataset
-- TensorFlow Datasets description and dataset citation: https://www.tensorflow.org/datasets/catalog/plant_village
-- Mendeley Data listing: https://data.mendeley.com/datasets/tywbtsjrjv/1
-
-Download/extract the image class folders and copy the class folders into `dataset/images/`. Avoid copying duplicate augmented images into both train and validation data if you create your own split manually; this starter uses a random 80/20 split.
-
-### Insect-pest dataset: IP102
-
-IP102 is a research dataset with more than 75,000 images across 102 insect-pest categories. Review its official repository and usage terms:
-- Official repository and download details: https://github.com/xpwu95/IP102
-- CVPR paper page: https://openaccess.thecvf.com/content_CVPR_2019/html/Wu_IP102_A_Large-Scale_Benchmark_Dataset_for_Insect_Pest_Recognition_CVPR_2019_paper.html
-
-IP102 may be provided with split files and a different directory layout. Arrange/copy its images into class folders under `dataset/images/` before training. Keep the original class names where possible. Check the dataset's academic-use conditions before using it outside academic research.
-
-**Important:** If you train only with PlantVillage, the project will classify plant health/disease classes only, not insect pests. For the full title, combine suitable disease and pest class folders. This starter treats each folder as one output class; it does not separately predict “disease vs pest” as a second output.
-
-## 4. Train the model
-
-From the project root, with the virtual environment activated:
+The repository includes the trained model and class names, so retraining is not required to use the existing application.
 
 ```powershell
-python training/train_model.py --epochs 10
+python -m streamlit run app.py
 ```
 
-For a quick test with a small sample dataset:
+Open the local address displayed in the terminal, usually:
+
+`http://localhost:8501`
+
+Upload a plant leaf image to view the model's prediction.
+
+---
+
+## 🏋️ Model Training
+
+To retrain the model, ensure the PlantVillage image folders are available in the directory expected by `training/train_model.py`.
+
+Run:
 
 ```powershell
-python training/train_model.py --epochs 2 --batch-size 8
+python .\training\train_model.py --epochs 3 --batch-size 16
 ```
 
-The first run may download MobileNetV2 pretrained weights and requires internet access. Training time depends on your CPU/GPU, image count, and memory. If the computer runs out of memory, reduce `--batch-size` to `8` or `16`.
+Adjust the number of epochs and batch size according to your available system resources.
 
-When training finishes, the project creates:
-- `models/crop_classifier.keras`
-- `models/class_names.json`
-- `training_history.csv`
+The training process generates or updates:
 
-The model and dataset are excluded from Git by `.gitignore` because they can be large. Do not upload them unless your instructor requires it and you have checked GitHub file-size limits and dataset licensing.
+* `models/crop_classifier.keras`
+* `models/class_names.json`
+* `training_history.csv`
 
-## 5. Run the web application
+**Note:** Retraining may replace the existing trained model. Keep a backup if you want to preserve the current version.
 
-After successful training:
+---
 
-```powershell
-streamlit run app.py
-```
+## 📈 Results
 
-Streamlit will show a local address in the terminal (usually `http://localhost:8501`). Open it in your browser, upload a JPG/PNG image, and review the top predictions.
+The model was trained using MobileNetV2 transfer learning.
 
-## 6. How the model works
+| Metric                      |    Result |
+| --------------------------- | --------: |
+| Number of output categories |        38 |
+| Input image size            | 224 × 224 |
+| Training epochs             |         3 |
+| Final training accuracy     |    93.16% |
+| Final validation accuracy   |    93.58% |
+| Final validation loss       |    0.1984 |
 
-1. **Input:** Load a crop/leaf/pest image.
-2. **Resize:** Convert it to 224 × 224 pixels.
-3. **Augmentation:** Randomly flip, rotate, and zoom training images.
-4. **CNN feature extraction:** MobileNetV2 convolution layers learn visual features such as edges, textures, shapes, and patterns.
-5. **Pooling:** Global average pooling compresses the feature maps.
-6. **Dropout:** Reduces overfitting during training.
-7. **Classification:** A softmax layer returns a score for each training class.
-8. **Output:** The interface displays the highest-scoring class and top-five scores.
+These results are from the completed training run. Validation accuracy is not the same as independent test accuracy, and it does not guarantee reliable performance on real-world farm images.
 
-## 7. Evaluation and limitations
+---
 
-- The script reports validation loss and validation accuracy.
-- Validation accuracy is not proof of field performance. Images from the same source or near-duplicates can inflate scores.
-- PlantVillage images often have clean backgrounds, while real farm images have varied lighting, backgrounds, and leaf angles.
-- For a stronger evaluation, create a separate test set that is never used during training or model selection. Report accuracy, per-class precision/recall/F1, and a confusion matrix.
-- A confidence score is not a guarantee. Do not treat the app as a substitute for an agricultural expert or use it alone to choose pesticides.
-- Because this is a multi-class classifier, it selects one class. Images containing multiple pests/diseases or no relevant subject may be misclassified.
+## ⚠️ Limitations
 
-## 8. GitHub upload
+* The current implementation classifies plant health and disease categories only.
+* Insect-pest classification has not yet been implemented.
+* The model was trained on PlantVillage images, which may differ from images captured in actual farming environments.
+* Lighting, backgrounds, camera quality, and leaf orientation can affect predictions.
+* The displayed confidence score is not a guarantee that a prediction is correct.
+* An independent test dataset and additional evaluation are needed to assess real-world performance.
 
-First create a **new empty repository** on GitHub (do not initialize it with a README if you already have this README locally). Then run from the project root:
+This project is an academic prototype and should not replace professional agricultural advice.
 
-```powershell
-git init
-git add .
-git status
-git commit -m "Initial crop disease and pest CNN project"
-git branch -M main
-git remote add origin https://github.com/YOUR-USERNAME/YOUR-REPOSITORY.git
-git push -u origin main
-```
+---
 
-Replace the remote URL with your own GitHub repository URL. Before `git add .`, confirm that your dataset and trained model are not staged:
+## 🔮 Future Enhancements
 
-```powershell
-git status
-```
+* Integrate a labeled insect-pest dataset.
+* Extend the model to recognize additional crop species and diseases.
+* Evaluate performance using an independent test dataset.
+* Generate a confusion matrix and per-class precision, recall, and F1 scores.
+* Improve performance on real-world crop images.
+* Add crop-specific disease information and preventive measures.
+* Deploy the application to a cloud platform.
+* Explore explainable AI techniques to highlight image regions influencing predictions.
 
-If Git prompts for authentication, follow GitHub's current sign-in flow. Never put passwords or access tokens into source code or commit them to the repository.
+---
 
-## 9. Suggested report chapters
+## 🎓 Academic Purpose
 
-1. Abstract
-2. Introduction
-3. Problem statement and objectives
-4. Literature review
-5. Dataset description and licensing
-6. Proposed methodology
-7. CNN / MobileNetV2 architecture
-8. Implementation and system requirements
-9. Results: training curves, validation metrics, confusion matrix, sample predictions
-10. Limitations and future scope
-11. Conclusion
-12. References
+This project demonstrates the application of deep learning, CNN-based image classification, transfer learning, and web application development to an agricultural problem.
 
-Only report results you actually obtained by training and testing the model. Do not invent accuracy values or claim the model detects pest categories unless those categories were included in training.
+It was developed for educational purposes to explore how computer vision can support crop disease identification.
 
-## References
+---
 
-- Mohanty, S. P., Hughes, D. P., & Salathé, M. (2016). *Using deep learning for image-based plant disease detection*. Frontiers in Plant Science. https://doi.org/10.3389/fpls.2016.01419
-- Wu, X., Zhan, C., Lai, Y.-K., Cheng, M.-M., & Yang, J. (2019). *IP102: A Large-Scale Benchmark Dataset for Insect Pest Recognition*. CVPR, 8787–8796.
+## 👨‍💻 Author
+
+**Vignesh Jorige**
+
+B.Tech — Computer Science and Engineering
+Specialization: Artificial Intelligence and Machine Learning
+
+GitHub: https://github.com/VIGNESH-04338
+
+---
+
+## 📚 References
+
+1. Mohanty, S. P., Hughes, D. P., and Salathé, M. (2016). *Using Deep Learning for Image-Based Plant Disease Detection.* Frontiers in Plant Science. https://doi.org/10.3389/fpls.2016.01419
+
+2. Wu, X., Zhan, C., Lai, Y.-K., Cheng, M.-M., and Yang, J. (2019). *IP102: A Large-Scale Benchmark Dataset for Insect Pest Recognition.* Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition.
+
+3. PlantVillage Dataset: https://github.com/spMohanty/PlantVillage-Dataset
+
+---
+
+**Made with Python, TensorFlow, MobileNetV2, and Streamlit.**
